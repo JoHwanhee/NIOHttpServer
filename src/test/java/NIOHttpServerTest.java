@@ -21,12 +21,14 @@ public class NIOHttpServerTest
 
     @Test
     public void localhost_접근시_http_response가_있어야함(){
-        try {
-            URL url = new URL("http://localhost:8080");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            System.out.println("Response code: " + conn.getResponseCode());
+        Assert.assertTrue(!reqeust("http://localhost:8080").isEmpty());
 
-            Assert.assertTrue(conn.getResponseCode() == 200);
+    }
+
+    private String reqeust(String requestUrl){
+        try {
+            URL url = new URL(requestUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
             BufferedReader rd;
             if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
@@ -41,10 +43,11 @@ public class NIOHttpServerTest
             }
             rd.close();
             conn.disconnect();
-            System.out.println(sb.toString());
+            return sb.toString();
         }
         catch (Exception e){
             System.out.println(e);
+            return "";
         }
     }
 
