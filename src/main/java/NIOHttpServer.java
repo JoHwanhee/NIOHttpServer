@@ -76,12 +76,15 @@ public class NIOHttpServer {
     }
 
     public void start(){
-        running = true;
-        runThread.start();
+        if(!running){
+            running = true;
+            runThread.start();
+        }
     }
 
     public void stop(){
-        running = false;
-
+        if(running){
+            running = false;
+        }
     }
 }
